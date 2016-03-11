@@ -179,6 +179,11 @@ public class DeviceUtils {
         return telephonyManager.getNetworkOperatorName();
     }
 
+    public static String getCarrierCode(final Context context) {
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        return telephonyManager.getNetworkOperator();
+    }
+
 
     public static String getUserAgent(Context context) {
         if (userAgent == null) {

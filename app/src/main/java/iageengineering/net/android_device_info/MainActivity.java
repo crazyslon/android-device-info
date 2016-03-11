@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 "\nCURRENT TIME : " + System.currentTimeMillis()
                         + "\nANDROID ID : " + DeviceUtils.getAndroidID(this)
                         + "\nCARRIER : " + DeviceUtils.getCarrier(this)
+                        + "\nCARRIER Code : " + DeviceUtils.getCarrierCode(this)
                         + "\nCOUNTRY : " + DeviceUtils.getCountry()
                         + "\nTIMEZONE : " + DeviceUtils.getTimeZoneID()
                         + "\nLANGUAGE : " + DeviceUtils.getLanguage()
