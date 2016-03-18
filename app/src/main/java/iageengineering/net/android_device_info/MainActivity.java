@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                         + "\nTIME : " + Build.TIME
                         + "\nTYPE : " + Build.TYPE
                         + "\nUNKNOWN : " + Build.UNKNOWN
+                        + "\nIS TABLET : " + DeviceUtils.isTablet(this)
                         + "\nUSER : " + Build.USER;
 
         return info;
