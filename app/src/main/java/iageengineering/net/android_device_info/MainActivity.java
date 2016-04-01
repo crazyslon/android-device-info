@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         AsyncTask<Void, Void, AdvertisingIdClient.Info> task = new AsyncTask<Void, Void, AdvertisingIdClient.Info>() {
             @Override
             protected AdvertisingIdClient.Info doInBackground(Void... params) {
@@ -54,11 +55,12 @@ public class MainActivity extends AppCompatActivity {
 
     private String getDeviceInfo() {
         ScreenSize screenSize = DeviceUtils.getScreenSize(this);
+        DeviceUtils.Carrier carrier = DeviceUtils.getCarrier(this);
         String info =
                 "\nCURRENT TIME : " + System.currentTimeMillis()
                         + "\nANDROID ID : " + DeviceUtils.getAndroidID(this)
-                        + "\nCARRIER : " + DeviceUtils.getCarrier(this)
-                        + "\nCARRIER Code : " + DeviceUtils.getCarrierCode(this)
+                        + "\nCARRIER : " + carrier.getName()
+                        + "\nCARRIER Code : " + carrier.getCode()
                         + "\nCOUNTRY : " + DeviceUtils.getCountry()
                         + "\nTIMEZONE : " + DeviceUtils.getTimeZoneID()
                         + "\nLANGUAGE : " + DeviceUtils.getLanguage()

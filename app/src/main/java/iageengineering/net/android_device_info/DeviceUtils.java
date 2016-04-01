@@ -175,16 +175,10 @@ public class DeviceUtils {
         }
     }
 
-    public static String getCarrier(final Context context) {
-        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        return telephonyManager.getNetworkOperatorName();
+    public static Carrier getCarrier(final Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        return new Carrier(tm.getNetworkOperator(),tm.getNetworkOperatorName());
     }
-
-    public static String getCarrierCode(final Context context) {
-        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        return telephonyManager.getNetworkOperator();
-    }
-
 
     public static String getUserAgent(Context context) {
         if (userAgent == null) {
@@ -265,5 +259,24 @@ public class DeviceUtils {
         Point point = new Point();
         display.getSize(point);
         return point;
+    }
+
+    static class Carrier {
+
+        private String code;
+        private String name;
+
+        public Carrier(String code, String name) {
+            this.name = name;
+            this.code = code;
+        }
+
+        String getCode() {
+            return this.code;
+        }
+
+        String getName() {
+            return this.name;
+        }
     }
 }
