@@ -30,21 +30,26 @@ import java.util.TimeZone;
 public class DeviceUtils {
     private static String userAgent = null;
 
-    public static String getMACAddress(String interfaceName) {
+    public static String getMACAddress() {
         try {
-            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
-            for (NetworkInterface intf : interfaces) {
-                if (interfaceName != null) {
-                    if (!intf.getName().equalsIgnoreCase(interfaceName)) continue;
+            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface nif : all) {
+                if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
+
+                byte[] macBytes = nif.getHardwareAddress();
+                if (macBytes == null) {
+                    return "";
                 }
-                byte[] mac = intf.getHardwareAddress();
-                if (mac == null) return "";
-                StringBuilder buf = new StringBuilder();
-                for (byte aMac : mac) {
-                    buf.append(String.format("%02X:", aMac));
+
+                StringBuilder res1 = new StringBuilder();
+                for (byte b : macBytes) {
+                    res1.append(String.format("%02X:",b));
                 }
-                if (buf.length() > 0) buf.deleteCharAt(buf.length() - 1);
-                return buf.toString();
+
+                if (res1.length() > 0) {
+                    res1.deleteCharAt(res1.length() - 1);
+                }
+                return res1.toString();
             }
         } catch (Exception ignored) {
         }
@@ -191,19 +196,15 @@ public class DeviceUtils {
         return userAgent;
     }
 
-    public static String getWifiMacAddress(final Context context) {
-
-        int wifiStatePermission = context.checkCallingOrSelfPermission(Manifest.permission.ACCESS_WIFI_STATE);
-        if (wifiStatePermission == PackageManager.PERMISSION_GRANTED) {
-            WifiManager manager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-            WifiInfo info = manager.getConnectionInfo();
-            String macAddress = info.getMacAddress();
-            if (macAddress == null) {
-                macAddress = "NO MAC Address";
-            }
-            return macAddress;
-        } else
-            return null;
+    public static String GetBsSid(final Context context) {
+        try {
+            WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            return wifiInfo.getBSSID();
+        }
+        catch (Exception ignored) {
+            return "";
+        }
     }
 
     public static String getBluetoothMacAddress(Context context) {
